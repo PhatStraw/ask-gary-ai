@@ -3,7 +3,6 @@ import { HumanMessage, SystemMessage } from "langchain/schema";
 import axios from "axios";
 import { useState } from "react";
 import Head from "next/head";
-
 const ChatUI = () => {
   const [messages, setMessages] = useState([
     new SystemMessage({ role: "system", content: "Welcome to the ChatGPT Chat UI!" }),

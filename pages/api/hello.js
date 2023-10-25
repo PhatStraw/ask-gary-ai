@@ -33,10 +33,10 @@ export default async function handler(req, res) {
     const { prompt } = req.body;
 
     try {
-      const results = await vercelPostgresStore.similaritySearch(prompt, 3);
-
+      const results = await vercelPostgresStore.similaritySearch(prompt, 1);
+      console.log("here")
       const response = await openai.chat.completions.create({
-        model: 'gpt-4',
+        model: 'gpt-3.5-turbo',
         temperature: 0,
         messages: [
           { role: 'system', content: 'You are a helpful AI assistant' },
@@ -52,7 +52,7 @@ export default async function handler(req, res) {
       })
 
       res.status(200).json({
-        answer: `Answer: ${response.choices[0].message.content}\nSources: ${results.map((r) => r.metadata.source).join(', ')}` 
+        answer: `${response.choices[0].message.content}\nSources: ${results.map((r) => r.metadata.source).join(', ')}` 
       });
     } catch (error) {
       res.status(500).json({ error: "An error occurred" });
