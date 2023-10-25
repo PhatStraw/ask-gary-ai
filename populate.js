@@ -34,7 +34,6 @@ const start = async () => {
   // Usage example
   const channelId = 'UCIBgYfDjtWlbJhg--Z4sOgQ'; // Replace with the desired creator's username
   const youtubeUrls = await getVideoUrlsFromCreator(channelId);
-  // console.log("YOUTUBE URLS: ", youtubeUrls)
   // Config is only required if you want to override default values.
   const config = {
     // tableName: "testvercelvectorstorelangchain",

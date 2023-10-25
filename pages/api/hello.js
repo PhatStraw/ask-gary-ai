@@ -3,6 +3,8 @@ import OpenAI from 'openai';
 import { VercelPostgres } from "langchain/vectorstores/vercel_postgres";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 
+export const runtime = 'edge';
+
 const config = {
   // tableName: "testvercelvectorstorelangchain",
   postgresConnectionOptions: {
@@ -34,7 +36,7 @@ export default async function handler(req, res) {
 
     try {
       const results = await vercelPostgresStore.similaritySearch(prompt, 3);
-      console.log("RESULTS",results)
+
       const response = await openai.chat.completions.create({
         model: 'gpt-4',
         temperature: 0,
@@ -51,13 +53,6 @@ export default async function handler(req, res) {
         ]
       })
 
-      console.log(
-        `Answer: ${response.choices[0].message.content}\nSources: 
-            ${results
-          .map((r) => r.metadata.source)
-          .join(', ')}
-        `
-      )
       res.status(200).json({
         answer: `Answer: ${response.choices[0].message.content}\nSources: ${results.map((r) => r.metadata.source).join(', ')}` 
       });
