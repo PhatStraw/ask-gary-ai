@@ -3,8 +3,6 @@ import OpenAI from 'openai';
 import { VercelPostgres } from "langchain/vectorstores/vercel_postgres";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 
-export const runtime = 'edge';
-
 const config = {
   // tableName: "testvercelvectorstorelangchain",
   postgresConnectionOptions: {
