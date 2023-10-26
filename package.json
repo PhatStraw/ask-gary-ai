@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@nanostores/react": "github:ai/react",
     "@vercel/postgres": "^0.5.0",
     "ai": "^2.2.18",
     "axios": "^1.5.1",

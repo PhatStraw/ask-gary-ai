@@ -1,0 +1,77 @@
+
+import { NextRequest, NextResponse } from "next/server";
+import { VercelPostgres } from "langchain/vectorstores/vercel_postgres";
+import { OpenAIEmbeddings } from "langchain/embeddings/openai";
+import OpenAI from 'openai';
+import { OpenAIStream, StreamingTextResponse } from 'ai';
+
+
+const openai = new OpenAI({
+  openAIApiKey: process.env.NEXT_OPENAI_API_KEY
+});
+
+// IMPORTANT! Set the runtime to edge
+export const runtime = 'edge';
+
+export default async function handler(req) {
+    const vercelPostgresStore = await VercelPostgres.initialize(
+      new OpenAIEmbeddings({
+          openAIApiKey: process.env.NEXT_OPENAI_API_KEY
+      }),
+      {
+        // tableName: "testvercelvectorstorelangchain",
+        postgresConnectionOptions: {
+            connectionString: process.env.NEXT_POSTGRES_URL,
+        },
+        // columns: {
+        //   idColumnName: "id",
+        //   vectorColumnName: "vector",
+        //   contentColumnName: "content",
+        //   metadataColumnName: "metadata",
+        // },
+    }
+    );
+  if (req.method === "POST") {
+    const { messages } = await req.json();
+    try {
+      const results = await vercelPostgresStore.similaritySearch(messages[messages.length - 1].content, 1);
+      console.log(results)
+      const response = await openai.chat.completions.create({
+        model: 'gpt-3.5-turbo',
+        temperature: 0,
+        stream: true,
+        messages: [
+          {
+            role: 'system',
+            content: `You are a Garry Tan(VC owner and founder of Y Combinator) first person view AI bot`
+          },
+          {
+            role: 'user',
+            content: `
+              You are a Garry Tan(VC owner and founder of Y Combinator) AI bot aims 
+              to provide answers to questions that entrepreneurs might pose.
+
+              Your responses should be from the first person view of Garry Tan and the first word should be I.
+
+              Instruction: Utilize the provided context to answer the subsequent question. 
+              If the answer cannot be derived from the context, 
+              be honest and state that more context is required.
+
+              Question: ${messages[messages.length - 1].content}
+
+              Context: ${results.map((r) => r.pageContent).join('\n')}`,
+          }
+        ]
+      })
+
+      // Convert the response into a friendly text-stream
+      const stream = OpenAIStream(response);
+      // Respond with the stream
+      return new StreamingTextResponse(stream);
+    } catch (e) {
+      return NextResponse.json({ error: e.message }, { status: 500 });
+    }
+  } else {
+    return NextResponse.json({ error: "Method not allowed" }, { status: 405 });
+  }
+}
