@@ -8,7 +8,6 @@ const { google } = require('googleapis');
 
 const channelId = 'UCIBgYfDjtWlbJhg--Z4sOgQ'; // Replace with the desired creator's ID
 
-
 const config = {
   postgresConnectionOptions: {
     connectionString: process.env.NEXT_POSTGRES_URL
@@ -44,6 +43,7 @@ async function getVideoUrlsFromCreator(channelId) {
   }
 }
 
+// Function to create loaders from given urls
 const getLoaders = async (youtubeUrls) => {
   return youtubeUrls.map((url) => {
     try {
@@ -59,6 +59,7 @@ const getLoaders = async (youtubeUrls) => {
   }).filter((loader) => loader !== undefined);
 }
 
+//Transcribe and chunk loaders
 const loadnSplitDocuments = async (loaders) => {
   return await Promise.all(loaders.map(async (loader) => {
     try {
@@ -76,13 +77,12 @@ const loadnSplitDocuments = async (loaders) => {
   }).filter((doc) => doc !== undefined))
 }
 
-const start = async () => {
-  // Usage example
+(async () => {
   const youtubeUrls = await getVideoUrlsFromCreator(channelId);
   const loaders = await getLoaders(youtubeUrls)
   const documents = await loadnSplitDocuments(loaders)
 
-  const ids = await Promise.all(documents.map(async (doc) => {
+  await Promise.all(documents.map(async (doc) => {
     if (doc) return await vercelPostgresStore.addDocuments(doc)
     return
   }))
@@ -90,6 +90,4 @@ const start = async () => {
   const results = await vercelPostgresStore.similaritySearch("Where does Garry work?", 2);
   console.log("result", results[0].metadata);
   process.exit();
-}
-
-start()
+})()
