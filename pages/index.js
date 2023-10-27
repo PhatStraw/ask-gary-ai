@@ -3,32 +3,33 @@ import React, { useState } from 'react';
 import { useChat } from 'ai/react';
 import { IconArrowRight, IconSearch, IconExternalLink } from "@tabler/icons-react";
 import ReactLoading from 'react-loading';
+
 const ChatUI = () => {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false)
   const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat();
-console.log("results",results)
-const handleSubmitWithResults = async (e) => {
-  e.preventDefault();
-  setLoading(true)
 
-  // Make a call to the API to get results
-  const response = await fetch('/api/context', {
-    method: 'POST',
-    body: JSON.stringify({ query: input }),
-    headers: {
-      'Content-Type': 'application/json'
+  const handleSubmitWithResults = async (e) => {
+    e.preventDefault();
+    setLoading(true)
+
+    // Make a call to the API to get results
+    const response = await fetch('/api/context', {
+      method: 'POST',
+      body: JSON.stringify({ query: input }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      setResults(data);
+      setLoading(false)
+      // Call handleSubmit on useChat
+      handleSubmit(e)
     }
-  });
-
-  if (response.ok) {
-    const data = await response.json();
-    setResults(data);
-    setLoading(false)
-    // Call handleSubmit on useChat
-    handleSubmit(e)
-  }
-};
+  };
   return (
     <div>
       <nav className='w-full border-b border-slate-300 pb-1 shadow shadow-md'>
@@ -54,11 +55,11 @@ const handleSubmitWithResults = async (e) => {
           </div>
         </form>
         <section className='pt-3'>
-          {loading ?  (
+          {loading ? (
             <div className='flex items-center justify-center'>
               <ReactLoading type={"balls"} color={"#fff"} height={'150px'} width={'150px'} />
             </div>
-            ) : (
+          ) : (
             messages.length > 0 && messages[messages.length - 1].role !== 'user' ? (
               <div key={messages[messages.length - 1].id} className="whitespace-pre-wrap">
                 <h3 className='text-3xl text-slate-200'> {messages[messages.length - 1].role === 'user' ? 'User ' : 'Answer '}</h3>
@@ -67,30 +68,30 @@ const handleSubmitWithResults = async (e) => {
             )
               : null)}
         </section>
-        <section>
-        {results.length > 0 ? (
-              <div>
-                <h3 className='text-3xl text-slate-200'>Passage</h3>
-                {results.map((context) => (
-                  <div className='text-slate-300 rounded-xl border border-slate-100 p-4 my-4'>
-                    <div className='flex justify-between'>
+        <section className='pt-3'>
+          {results.length > 0 ? (
+            <div>
+              <h3 className='text-3xl text-slate-200'>Passage</h3>
+              {results.map((context) => (
+                <div className='text-slate-300 rounded-xl border border-slate-100 p-4 my-4'>
+                  <div className='flex justify-between'>
                     <h4 className='text-2xl mb-1'>{context.metadata.title}</h4>
                     <a
-                            className="hover:opacity-50 ml-2"
-                            href={`https://www.youtube.com/watch?v=${context.metadata.source}`}
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            <IconExternalLink />
-                          </a>
-                    </div>
-                    <span>{context.metadata.source}</span>
-                    <p>{context.pageContent}</p>
+                      className="hover:opacity-50 ml-2"
+                      href={`https://www.youtube.com/watch?v=${context.metadata.source}`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <IconExternalLink />
+                    </a>
                   </div>
-                ))}
-              </div>
-            )
-              : null}
+                  <span>{context.metadata.source}</span>
+                  <p>{context.pageContent}</p>
+                </div>
+              ))}
+            </div>
+          )
+            : null}
         </section>
       </div>
     </div>
