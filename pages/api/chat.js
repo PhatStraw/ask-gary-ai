@@ -32,10 +32,10 @@ export default async function handler(req) {
     }
   );
   if (req.method === "POST") {
-    const { messages } = await req.json();
+    const { messages, body } = await req.json();
+    console.log(body)
     try {
       const results = await vercelPostgresStore.similaritySearch(messages[messages.length - 1].content, 1);
-
       const response = await openai.chat.completions.create({
         model: 'gpt-3.5-turbo',
         temperature: 0,

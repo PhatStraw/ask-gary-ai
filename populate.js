@@ -1,6 +1,5 @@
 require('dotenv').config()
 const { YoutubeLoader } = require("langchain/document_loaders/web/youtube");
-const { TextSplitter } = require("langchain/text_splitter");
 const { CharacterTextSplitter } = require('langchain/text_splitter')
 const { OpenAIEmbeddings } = require("langchain/embeddings/openai");
 const { VercelPostgres } = require("langchain/vectorstores/vercel_postgres");
@@ -77,7 +76,7 @@ const loadnSplitDocuments = async (loaders) => {
     }),
     config
   );
-  
+
   const youtubeUrls = await getVideoUrlsFromCreator(channelId);
   const loaders = await getLoaders(youtubeUrls)
   const documents = await loadnSplitDocuments(loaders)
