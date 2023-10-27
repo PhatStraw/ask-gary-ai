@@ -1,6 +1,6 @@
 'use client';
 import { useChat } from 'ai/react';
-import { IconArrowRight, IconExternalLink, IconSearch } from "@tabler/icons-react";
+import { IconArrowRight, IconSearch } from "@tabler/icons-react";
 
 const ChatUI = () => {
   const { messages, input, handleInputChange, handleSubmit, data } = useChat();
@@ -26,7 +26,7 @@ const ChatUI = () => {
         </div>
       </form>
       <section className='pt-3'>
-        {messages.length > 0 ? (
+        {messages.length > 0 && messages[messages.length -1].role !== 'user'  ? (
           <div key={messages[messages.length -1].id} className="whitespace-pre-wrap">
             <h3 className='text-3xl'> {messages[messages.length -1].role === 'user' ? 'User ' : 'Answer '}</h3>
             <p className='p-2 text-xl'>{messages[messages.length -1].content}</p>
