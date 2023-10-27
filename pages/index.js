@@ -16,7 +16,7 @@ const ChatUI = () => {
           <div className="relative w-full mt-4">
             <IconSearch className="absolute top-3 w-10 left-1 h-6 rounded-full opacity-50 sm:left-3 sm:top-4 sm:h-8" />
             <input
-              className="h-12 w-full text-slate-100 rounded-full border border-zinc-600 pr-12 pl-11 focus:border-zinc-800 focus:outline-none focus:ring-1 focus:ring-zinc-800 sm:h-16 sm:py-2 sm:pr-16 sm:pl-16 sm:text-lg"
+              className="h-12 w-full text-slate-700 rounded-full border border-zinc-600 pr-12 pl-11 focus:border-zinc-800 focus:outline-none focus:ring-1 focus:ring-zinc-800 sm:h-16 sm:py-2 sm:pr-16 sm:pl-16 sm:text-lg"
               type="text"
               value={input}
               placeholder="How do I know if ive found a product/market fit?"
