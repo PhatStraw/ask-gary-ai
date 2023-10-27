@@ -9,7 +9,7 @@ const ChatUI = () => {
   return (
     <div>
       <nav className='w-full border-b border-slate-300 pb-1 shadow shadow-md'>
-        <h2 className='p-3 text-slate-300 text-3xl font-bold'>Ask Garry GPT</h2>
+        <h2 className='p-3 text-slate-300 text-3xl font-bold'>Ask G-PT</h2>
       </nav>
       <div className="flex flex-col w-full mx-auto max-w-[730px] p-2">
         <form onSubmit={handleSubmit}>
