@@ -14,13 +14,6 @@ const config = {
   },
 };
 
-const vercelPostgresStore = await VercelPostgres.initialize(
-  new OpenAIEmbeddings({
-    openAIApiKey: process.env.NEXT_OPENAI_API_KEY
-  }),
-  config
-);
-
 // Function to get all video URLs from a specific creator
 async function getVideoUrlsFromCreator(channelId) {
   // Set up the YouTube Data API client
@@ -36,6 +29,7 @@ async function getVideoUrlsFromCreator(channelId) {
       maxResults: 50, // Adjust the number of results as needed
     });
     const videoUrls = videosResponse.data.items.map((item) => `https://www.youtube.com/watch?v=${item.id.videoId}`);
+
     return videoUrls;
   } catch (error) {
     console.error('Error retrieving video URLs:', error);
@@ -47,11 +41,10 @@ async function getVideoUrlsFromCreator(channelId) {
 const getLoaders = async (youtubeUrls) => {
   return youtubeUrls.map((url) => {
     try {
-      const hello = YoutubeLoader.createFromUrl(url, {
+      return YoutubeLoader.createFromUrl(url, {
         language: 'en',
         addVideoInfo: true,
       });
-      return hello;
     } catch (error) {
       console.error('Error creating YoutubeLoader:', error);
       return undefined; // Ignore the entry and continue with the next one
@@ -78,6 +71,13 @@ const loadnSplitDocuments = async (loaders) => {
 }
 
 (async () => {
+  const vercelPostgresStore = await VercelPostgres.initialize(
+    new OpenAIEmbeddings({
+      openAIApiKey: process.env.OPENAI_API_KEY
+    }),
+    config
+  );
+  
   const youtubeUrls = await getVideoUrlsFromCreator(channelId);
   const loaders = await getLoaders(youtubeUrls)
   const documents = await loadnSplitDocuments(loaders)
@@ -88,6 +88,7 @@ const loadnSplitDocuments = async (loaders) => {
   }))
 
   const results = await vercelPostgresStore.similaritySearch("Where does Garry work?", 2);
-  console.log("result", results[0].metadata);
+
+  console.log("result", results[0]);
   process.exit();
 })()
