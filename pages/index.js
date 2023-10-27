@@ -73,7 +73,7 @@ const ChatUI = () => {
             <div>
               <h3 className='text-3xl text-slate-200'>Passage</h3>
               {results.map((context) => (
-                <div className='text-slate-300 rounded-xl border border-slate-100 p-4 my-4'>
+                <div key={context.metadata.source} className='text-slate-300 rounded-xl border border-slate-100 p-4 my-4'>
                   <div className='flex justify-between'>
                     <h4 className='text-2xl mb-1'>{context.metadata.title}</h4>
                     <a
