@@ -5,37 +5,31 @@ import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import OpenAI from 'openai';
 import { OpenAIStream, StreamingTextResponse } from 'ai';
 
-
-const openai = new OpenAI({
-  openAIApiKey: process.env.NEXT_OPENAI_API_KEY
-});
-
 // IMPORTANT! Set the runtime to edge
 export const runtime = 'edge';
 
 export default async function handler(req) {
-  const vercelPostgresStore = await VercelPostgres.initialize(
-    new OpenAIEmbeddings({
-      openAIApiKey: process.env.NEXT_OPENAI_API_KEY
-    }),
-    {
-      // tableName: "testvercelvectorstorelangchain",
-      postgresConnectionOptions: {
-        connectionString: process.env.NEXT_POSTGRES_URL,
-      },
-      // columns: {
-      //   idColumnName: "id",
-      //   vectorColumnName: "vector",
-      //   contentColumnName: "content",
-      //   metadataColumnName: "metadata",
-      // },
-    }
-  );
   if (req.method === "POST") {
-    const { messages, body } = await req.json();
-    console.log(body)
+
+    const vercelPostgresStore = await VercelPostgres.initialize(
+      new OpenAIEmbeddings({
+        openAIApiKey: process.env.NEXT_OPENAI_API_KEY
+      }),
+      {
+        postgresConnectionOptions: {
+          connectionString: process.env.NEXT_POSTGRES_URL,
+        },
+      }
+    );
+
+    const openai = new OpenAI({
+      openAIApiKey: process.env.NEXT_OPENAI_API_KEY
+    });
+
+    const { messages } = await req.json();
+
     try {
-      const results = await vercelPostgresStore.similaritySearch(messages[messages.length - 1].content, 1);
+      const results = await vercelPostgresStore.similaritySearch(messages[messages.length - 1].content, 5);
       const response = await openai.chat.completions.create({
         model: 'gpt-3.5-turbo',
         temperature: 0,

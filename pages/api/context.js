@@ -15,7 +15,7 @@ export default async function handler(req, res) {
     );
 
     const { query } = req.body;
-    const results = await vercelPostgresStore.similaritySearch(query, 10);
+    const results = await vercelPostgresStore.similaritySearch(query, 5);
 
     res.status(200).json(results);
   } catch (error) {
