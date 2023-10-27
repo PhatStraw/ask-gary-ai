@@ -42,7 +42,7 @@ export default async function handler(req) {
           {
             role: 'user',
             content: `
-              Use the following context to provide an answer to the question:
+              Use the following context to provide a first person answer to the question:
 
               Question: ${messages[messages.length - 1].content}
 
