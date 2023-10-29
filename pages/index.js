@@ -93,7 +93,7 @@ const ChatUI = () => {
                 options={{
                   wrapperClassName: "white-text",
                   pauseFor: 0,
-                  delay: 20
+                  delay: 10
                 }}
                 onInit={(typewriter) => {
                   typewriter
