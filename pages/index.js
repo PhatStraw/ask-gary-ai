@@ -88,9 +88,8 @@ const ChatUI = () => {
               </p>
             </div>
           ) : (
-            <div className="h-full w-full pt-1">
+            <div className="h-full w-full p-2 pt-1 text-xl md:text-2xl text-slate-300">
               <Typewriter
-                wrapperClassName="white-text"
                 options={{
                   wrapperClassName: "white-text",
                   pauseFor: 0,
@@ -99,7 +98,7 @@ const ChatUI = () => {
                 onInit={(typewriter) => {
                   typewriter
                     .typeString(
-                    `Welcome to Garry GPT! This platform allows you to dive into the wealth of knowledge available in Garry Tan's YouTube video content, without having to sift through hours of footage. By simply typing in a question, you'll receive insightful information extracted from Garry Tan's videos, alongside a coherent response generated with the help of advanced AI.<br></br>How to Use:<br></br>Enter Your Query: Start by typing your question into the search bar, press enter when ready.<br></br>Explore Further: If interested, you can dive deeper by following the links to the original video content provided alongside the snippets. Your quest for knowledge just got a lot easier and faster with Garry GPT. Now, let's start exploring!`
+                    `Welcome to Garry GPT!<br></br>This platform allows you to dive into the wealth of knowledge available in Garry Tan's YouTube video content, without having to sift through hours of footage. By simply typing in a question, you'll receive insightful information extracted from Garry Tan's videos, alongside a coherent response generated with the help of advanced AI.<br></br>How to Use:<br></br>Enter Your Query: Start by typing your question into the search bar, press enter when ready.<br></br>Explore Further: If interested, you can dive deeper by following the links to the original video content provided alongside the snippets. Your quest for knowledge just got a lot easier and faster with Garry GPT. Now, let's start exploring!`
                     )
                     .callFunction(() => {
                       console.log("String typed out!");
