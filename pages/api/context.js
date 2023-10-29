@@ -5,7 +5,7 @@ export default async function handler(req, res) {
   try {
     const vercelPostgresStore = await VercelPostgres.initialize(
       new OpenAIEmbeddings({
-        openAIApiKey: process.env.NEXT_OPENAI_API_KEY
+        openAIApiKey: process.env.NEXT_OPENAI_API_KEY,
       }),
       {
         postgresConnectionOptions: {
