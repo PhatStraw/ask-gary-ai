@@ -44,7 +44,7 @@ To run the Garry Tan AI locally, follow these steps:
 
 2. Set up a database: You can use any method to store your data, but the recommended approach is to use Supabase. Set up a Supabase database and enable Row Level Security. Create a service role to use with the app.
 
-3. Clone the repository: `git clone https://github.com/your-repo.git`
+3. Clone the repository: `git clone https://github.com/PhatStraw/ask-gary-ai`
 
 4. Install dependencies: `npm install`
 
