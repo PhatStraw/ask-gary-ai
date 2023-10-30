@@ -8,7 +8,6 @@ import {
   IconExternalLink,
 } from "@tabler/icons-react";
 import ReactLoading from "react-loading";
-
 const ChatUI = () => {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -37,6 +36,18 @@ const ChatUI = () => {
     }
   };
 
+  const onPlayerReady = (event) => {
+    // access to player in all event handlers via event.target
+    event.target.pauseVideo();
+  };
+
+  const opts = {
+    playerVars: {
+      // https://developers.google.com/youtube/player_parameters
+      autoplay: 0,
+    },
+  };
+
   return (
     <div>
       <nav className="w-full border-b border-slate-300 pb-1 shadow shadow-md">
@@ -50,7 +61,7 @@ const ChatUI = () => {
               className="h-12 w-full text-slate-700 rounded-full border border-zinc-600 pr-12 pl-11 focus:border-zinc-800 focus:outline-none focus:ring-1 focus:ring-zinc-800 sm:h-16 sm:py-2 sm:pr-16 sm:pl-16 sm:text-lg"
               type="text"
               value={input}
-              placeholder="How do I know if ive found a product/market fit?"
+              placeholder="How can I accurately ascertain if I've achieved a product/market fit for my offering?"
               onChange={handleInputChange}
             />
             <button>
@@ -78,10 +89,9 @@ const ChatUI = () => {
               className="whitespace-pre-wrap"
             >
               <h3 className="text-3xl text-slate-200">
-                {" "}
                 {messages[messages.length - 1].role === "user"
-                  ? "User "
-                  : "Answer "}
+                  ? "User"
+                  : "Answer"}
               </h3>
               <p className="p-2 text-xl text-slate-300">
                 {messages[messages.length - 1].content}
@@ -93,12 +103,12 @@ const ChatUI = () => {
                 options={{
                   wrapperClassName: "white-text",
                   pauseFor: 0,
-                  delay: 10
+                  delay: 10,
                 }}
                 onInit={(typewriter) => {
                   typewriter
                     .typeString(
-                    `Welcome to Garry GPT!<br></br>This platform allows you to dive into the wealth of knowledge available in Garry Tan's YouTube video content, without having to sift through hours of footage. By simply typing in a question, you'll receive insightful information extracted from Garry Tan's videos, alongside a coherent response generated with the help of advanced AI.<br></br>How to Use:<br></br>Enter Your Query: Start by typing your question into the search bar, press enter when ready.<br></br>Explore Further: If interested, you can dive deeper by following the links to the original video content provided alongside the snippets. Your quest for knowledge just got a lot easier and faster with Garry GPT. Now, let's start exploring!`
+                      `Welcome to Garry GPT!<br></br>This platform allows you to dive into the wealth of knowledge available in Garry Tan's YouTube video content, without having to sift through hours of footage. By simply typing in a question, you'll receive insightful information extracted from Garry Tan's videos, alongside a coherent response generated with the help of advanced AI.<br></br>How to Use:<br></br>Enter Your Query: Start by typing your question into the search bar, press enter when ready.<br></br>Explore Further: If interested, you can dive deeper by following the links to the original video content provided alongside the snippets. Your quest for knowledge just got a lot easier and faster with Garry GPT. Now, let's start exploring!`
                     )
                     .callFunction(() => {
                       console.log("String typed out!");
@@ -108,13 +118,12 @@ const ChatUI = () => {
                       console.log("All strings were deleted");
                     })
                     .start();
-                  // .deleteAll()
                 }}
               />
             </div>
           )}
         </section>
-        {results.length > 0 ? (
+        {results.length > 0 && (
           <section className="pt-3">
             <h3 className="text-3xl text-slate-200">Sources</h3>
             {results.map((context) => (
@@ -122,7 +131,7 @@ const ChatUI = () => {
                 key={context.metadata.source}
                 className="text-slate-300 rounded-xl border border-slate-100 p-4 my-4"
               >
-                <div className="flex justify-between">
+                {/* <div className="flex justify-between">
                   <h4 className="text-2xl mb-1">{context.metadata.title}</h4>
                   <a
                     className="hover:opacity-50 ml-2"
@@ -133,12 +142,19 @@ const ChatUI = () => {
                     <IconExternalLink />
                   </a>
                 </div>
-                <span>{context.metadata.source}</span>
+               */}
+                <iframe
+                  src={`https://www.youtube.com/embed/${context.metadata.source}`.replace("watch?v=", "v/")}
+                  allowFullScreen="1"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  className="w-full aspect-video mb-2 rounded-xl"
+                />
+                <h3 className="text-xl font-bold mb-1">Context Match</h3>
                 <p>{context.pageContent}</p>
               </div>
             ))}
           </section>
-        ) : null}
+        )}
       </div>
     </div>
   );
