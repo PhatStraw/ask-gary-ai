@@ -9,7 +9,7 @@ const channelId = 'UCIBgYfDjtWlbJhg--Z4sOgQ'; // Replace with the desired creato
 
 const config = {
   postgresConnectionOptions: {
-    connectionString: "postgres://default:OB3QFrM4dwNe@ep-proud-mode-34073360-pooler.us-east-1.postgres.vercel-storage.com:5432/verceldb?pgbouncer=true&connect_timeout=10&connection_limit=10"
+    connectionString: process.env.NEXT_POSTGRES_URL
   },
 };
 
@@ -18,7 +18,7 @@ async function getVideoUrlsFromCreator(channelId) {
   // Set up the YouTube Data API client
   const youtube = google.youtube({
     version: 'v3',
-    auth: 'AIzaSyB4xAo6nkwGIcd55Aea3urtU4HUDWOmNxw', // Replace with your own API key
+    auth: process.env.NEXT_YOUTUBE_DATA_API, // Replace with your own API key
   });
   try {
     // Get all videos from the channel
@@ -72,7 +72,7 @@ const loadnSplitDocuments = async (loaders) => {
 (async () => {
   const vercelPostgresStore = await VercelPostgres.initialize(
     new OpenAIEmbeddings({
-      openAIApiKey: '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'
+      openAIApiKey: process.env.NEXT_OPENAI_API_KEY
     }),
     config
   );
