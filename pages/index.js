@@ -144,7 +144,10 @@ const ChatUI = () => {
                 </div>
                */}
                 <iframe
-                  src={`https://www.youtube.com/embed/${context.metadata.source}`.replace("watch?v=", "v/")}
+                  src={`https://www.youtube.com/embed/${context.metadata.source}`.replace(
+                    "watch?v=",
+                    "v/"
+                  )}
                   allowFullScreen="1"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   className="w-full aspect-video mb-2 rounded-xl"
