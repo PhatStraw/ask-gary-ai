@@ -14,7 +14,7 @@ To start the application, run `npm start` and navigate to [http://localhost:3000
 
 ## Documentation
 
-For more information on how to use the ChatGPT Chat UI, please refer to [https://platform.openai.com/overview](https://platform.openai.com/overview).
+For more information on how to use the ChatGPT API, please refer to [https://platform.openai.com/overview](https://platform.openai.com/overview).
 
 ## Contributing
 
