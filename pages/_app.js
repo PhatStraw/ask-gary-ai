@@ -1,7 +1,7 @@
 import "dotenv/config";
 import "components/styles/globals.css";
 import localFont from "next/font/local";
-import Nav from "../components/Nav";
+import Nav from "../components/Nav"
 
 const geistMono = localFont({
   src: [

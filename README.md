@@ -1,6 +1,6 @@
 # Garry Tan AI
 
-[https://ask-g-pt-ai.vercel.app/](https://ask-g-pt-ai.vercel.app/)
+[https://askgarry.vercel.app/](https://askgarry.vercel.app/)
 
 Perform semantic search and ChatGPT chat operations based on the YouTube videos of Garry Tan.
 
