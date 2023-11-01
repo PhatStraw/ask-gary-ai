@@ -1,6 +1,7 @@
 import "dotenv/config";
 import "components/styles/globals.css";
 import localFont from "next/font/local";
+import Nav from "../components/Nav";
 
 const geistMono = localFont({
   src: [
@@ -20,6 +21,7 @@ const geistMono = localFont({
 export default function App({ Component, pageProps }) {
   return (
     <main className={`${geistMono.variable} font-mono`}>
+      <Nav />
       <Component {...pageProps} />
     </main>
   );
