@@ -50,7 +50,7 @@ const ChatUI = () => {
               className="h-12 w-full text-slate-700 rounded-full border border-zinc-600 pr-12 pl-11 focus:border-zinc-800 focus:outline-none focus:ring-1 focus:ring-zinc-800 sm:h-16 sm:py-2 sm:pr-16 sm:pl-16 sm:text-lg"
               type="text"
               value={input}
-              placeholder="How can I accurately ascertain if I've achieved a product/market fit for my offering?"
+              placeholder="Why did you decide to start your own business?"
               onChange={handleInputChange}
             />
             <button>
